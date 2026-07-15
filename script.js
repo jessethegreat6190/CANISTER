@@ -358,7 +358,7 @@ function drawMapChart(){
     datalessRegionColor:'#AED6F1',
     defaultColor:'#AED6F1',
     legend:'none',
-    tooltip:{textStyle:{fontFamily:'PT Sans',fontSize:13}}
+    tooltip:{textStyle:{fontFamily:'Montserrat',fontSize:13}}
   });
 }
 

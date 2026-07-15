@@ -9,8 +9,8 @@
   --nav-h:64px;--bottom-nav-h:60px;
   --cat-chem:#C0392B;--cat-conv:#8E44AD;--cat-kin:#E67E22;
   --cat-less:#2980B9;--cat-rest:#27AE60;--cat-strike:#F39C12;
-  --heading-font:'Poppins',sans-serif;
-  --body-font:'Poppins',sans-serif;
+  --heading-font:'Montserrat',sans-serif;
+  --body-font:'Montserrat',sans-serif;
 }
 [data-theme="dark"]{
   --bg:#1A1A2E;--bg2:#16162A;--card:#222244;--card-hover:#2A2A55;
