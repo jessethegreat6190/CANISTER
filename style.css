@@ -45,10 +45,11 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .filter-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 8px rgba(192,57,43,0.2)}
 .filter-pill .badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:rgba(0,0,0,0.08);padding:0 4px;font-size:9px;font-weight:700}
 .filter-pill.active .badge{background:rgba(255,255,255,0.25)}
-.kpi-bar{position:relative;z-index:10;padding:6px 24px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.kpi-card .material-symbols-rounded{font-size:16px;color:var(--accent);flex-shrink:0}
-.kpi-info h3{font-size:13px;font-weight:700;line-height:1;text-transform:none;letter-spacing:0}
+.kpi-bar{position:relative;z-index:10;padding:6px 24px 12px}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.kpi-stat{display:flex;align-items:center;gap:8px}
+.kpi-stat .material-symbols-rounded{font-size:18px;color:var(--accent);flex-shrink:0}
+.kpi-info h3{font-size:14px;font-weight:700;line-height:1;text-transform:none;letter-spacing:0}
 .kpi-info p{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-family:var(--heading-font)}
 .view-container{position:relative;z-index:10;padding:0 24px 100px;max-width:1400px;margin:0 auto}
 .view-panel{display:none}
@@ -137,10 +138,11 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   .grid-view{grid-template-columns:repeat(2,1fr)}
   .skeleton-screen .s-grid{grid-template-columns:repeat(2,1fr)}
   .skeleton-screen .s-kpi{grid-template-columns:repeat(2,1fr)}
-  .kpi-bar{grid-template-columns:repeat(2,1fr)}
   header{padding:0 12px}
   .filters-bar{padding:8px 0}
   .kpi-bar{padding:4px 12px 12px}
+  .kpi-card{flex-wrap:wrap;gap:6px;padding:8px 12px}
+  .kpi-stat{flex:1 1 45%;min-width:0}
   .view-container{padding:0 12px 100px}
   .search-box{max-width:none}
 }
