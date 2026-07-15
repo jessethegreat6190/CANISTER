@@ -49,12 +49,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .icon-btn{width:40px;height:40px;border:none;border-radius:var(--radius-pill);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .icon-btn:hover{background:var(--accent-bg);color:var(--accent)}
 .icon-btn.active{background:var(--accent);color:#fff}
-.filters-bar{position:relative;z-index:10;padding:12px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters-bar{position:relative;z-index:10;padding:8px 0;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .filters-bar::-webkit-scrollbar{display:none}
-.filter-pill{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--radius-pill);border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--heading-font);text-transform:uppercase;letter-spacing:.03em}
+.filter-pill{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:var(--radius-pill);border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--heading-font);text-transform:uppercase;letter-spacing:.03em}
 .filter-pill:hover{border-color:var(--accent);color:var(--accent)}
 .filter-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.filter-pill .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:rgba(0,0,0,0.08);padding:0 5px;font-size:10px;font-weight:700}
+.filter-pill .badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:rgba(0,0,0,0.08);padding:0 4px;font-size:9px;font-weight:700}
 .filter-pill.active .badge{background:rgba(255,255,255,0.25)}
 .kpi-bar{position:relative;z-index:10;padding:6px 24px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 8px;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow)}
@@ -151,7 +151,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   .skeleton-screen .s-kpi{grid-template-columns:repeat(2,1fr)}
   .kpi-bar{grid-template-columns:repeat(2,1fr)}
   header{padding:0 12px}
-  .filters-bar{padding:8px 12px}
+  .filters-bar{padding:8px 0}
   .kpi-bar{padding:4px 12px 12px}
   .view-container{padding:0 12px 100px}
   .search-box{max-width:none}
@@ -436,7 +436,7 @@ function renderFilters(){
   const bar = document.getElementById("filtersBar");
   let html = `<button class="filter-pill ${activeFilter==='All'?'active':''}" onclick="setFilter('All')">All <span class="badge">${records.length}</span></button>`;
   ALL_CATEGORIES.forEach(c => {
-    html += `<button class="filter-pill ${activeFilter===c?'active':''}" onclick="setFilter('${c}')"><span class="material-symbols-rounded" style="font-size:16px;color:${activeFilter===c?'#fff':CAT_COLORS[c]}">${CAT_ICONS[c]}</span> ${c} <span class="badge">${counts[c]}</span></button>`;
+    html += `<button class="filter-pill ${activeFilter===c?'active':''}" onclick="setFilter('${c}')"><span class="material-symbols-rounded" style="font-size:14px;color:${activeFilter===c?'#fff':CAT_COLORS[c]}">${CAT_ICONS[c]}</span> ${c} <span class="badge">${counts[c]}</span></button>`;
   });
   bar.innerHTML = html;
 }
