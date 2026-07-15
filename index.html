@@ -104,11 +104,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state p{font-size:14px;max-width:400px}
 
 #mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-.map-legend{position:absolute;top:12px;left:12px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px 14px;z-index:20;min-width:180px}
-.map-heading{font-family:var(--heading-font);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;color:var(--text)}
-.map-country{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:1px}
-.map-diamond{font-size:10px;color:var(--accent);margin-bottom:1px}
-.map-company{font-size:11px;color:var(--text);margin-bottom:8px}
+.map-legend{position:absolute;top:10px;left:10px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:8px 12px;z-index:20;min-width:160px}
+.map-heading{font-family:var(--heading-font);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;color:var(--text)}
+.map-country{font-size:10px;font-weight:700;color:var(--accent);margin-bottom:1px;display:flex;align-items:center;gap:4px}
+.map-dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
+.map-diamond{display:none}
+.map-company{font-size:10px;color:var(--text);margin-bottom:6px;padding-left:12px}
 .map-company:last-child{margin-bottom:0}
 .map-note{position:absolute;bottom:12px;right:16px;font-size:11px;color:var(--text3);font-style:italic;z-index:20;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px 10px;border-radius:var(--radius-pill);pointer-events:none}
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
@@ -552,11 +553,9 @@ function renderMap(){
   initMapChart();
   const container = document.getElementById('mapCompanies');
   container.innerHTML = `
-    <div class="map-country">Brazil</div>
-    <div class="map-diamond">&#9826;</div>
+    <div class="map-country"><span class="map-dot" style="background:#E74C3C"></span>Brazil</div>
     <div class="map-company">Condor Non-Lethal Technologies</div>
-    <div class="map-country">India</div>
-    <div class="map-diamond">&#9826;</div>
+    <div class="map-country"><span class="map-dot" style="background:#E74C3C"></span>India</div>
     <div class="map-company">BSF Tear Smoke Unit</div>
   `;
 }
