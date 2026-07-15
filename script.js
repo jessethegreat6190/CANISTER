@@ -312,6 +312,24 @@ document.getElementById('searchInput').addEventListener('input', function(e){
   renderGrid();
 });
 
+// Animated placeholder
+(function(){
+  const input = document.getElementById('searchInput');
+  const phrases = ["Search canisters, locations, categories...","Type to filter the archive...","Find by name, country, or type...","What are you looking for?"];
+  let idx = 0, charIdx = 0, deleting = false;
+  function tick(){
+    const p = phrases[idx];
+    if(!deleting){
+      if(charIdx < p.length){ charIdx++; input.setAttribute('placeholder', p.substring(0,charIdx)); setTimeout(tick,40); }
+      else { deleting=true; setTimeout(tick,2000); }
+    } else {
+      if(charIdx > 0){ charIdx--; input.setAttribute('placeholder', p.substring(0,charIdx)); setTimeout(tick,20); }
+      else { deleting=false; idx=(idx+1)%phrases.length; setTimeout(tick,200); }
+    }
+  }
+  tick();
+})();
+
 // Theme init
 (function(){
   const saved = localStorage.getItem('theme')||'light';
