@@ -158,10 +158,11 @@ function getBadgeClass(cat){
   return "Chemical";
 }
 
-function getCategoryCounts(){
+function getCategoryCounts(src){
+  const data = src || records;
   const counts = {};
   ALL_CATEGORIES.forEach(c => counts[c]=0);
-  records.forEach(r => r[2].forEach(c => { if(counts[c]!==undefined) counts[c]++; }));
+  data.forEach(r => r[2].forEach(c => { if(counts[c]!==undefined) counts[c]++; }));
   return counts;
 }
 
@@ -175,9 +176,10 @@ function getFilteredRecords(){
 }
 
 function renderFilters(){
-  const counts = getCategoryCounts();
+  const filtered = getFilteredRecords();
+  const counts = getCategoryCounts(filtered);
   const bar = document.getElementById("filtersBar");
-  let html = `<button class="filter-pill ${activeFilter==='All'?'active':''}" onclick="setFilter('All')">All <span class="badge">${records.length}</span></button>`;
+  let html = `<button class="filter-pill ${activeFilter==='All'?'active':''}" onclick="setFilter('All')">All <span class="badge">${filtered.length}</span></button>`;
   ALL_CATEGORIES.forEach(c => {
     html += `<button class="filter-pill ${activeFilter===c?'active':''}" onclick="setFilter('${c}')"><span class="material-symbols-rounded" style="font-size:13px">${CAT_ICONS[c]}</span> ${c} <span class="badge">${counts[c]}</span></button>`;
   });
@@ -309,6 +311,7 @@ function toggleTheme(){
 // Search
 document.getElementById('searchInput').addEventListener('input', function(e){
   searchTerm = e.target.value;
+  renderFilters();
   renderGrid();
 });
 
