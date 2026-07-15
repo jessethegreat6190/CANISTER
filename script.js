@@ -171,7 +171,7 @@ function getFilteredRecords(){
     const s = searchTerm.toLowerCase();
     const matchSearch = !s || r[0].toLowerCase().includes(s) || r[4].toLowerCase().includes(s) || r[2].join(" ").toLowerCase().includes(s) || r[5].toLowerCase().includes(s);
     return matchFilter && matchSearch;
-  });
+  }).sort((a,b) => new Date(b[5]) - new Date(a[5]));
 }
 
 function renderFilters(){
