@@ -31,8 +31,9 @@ header{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px 
 .logo-text span{font-family:var(--heading-font);font-weight:700;font-size:14px;letter-spacing:-.02em;color:var(--text);line-height:1}
 .logo-sub{font-size:8px!important;font-weight:500!important;letter-spacing:.15em!important;text-transform:uppercase!important;color:var(--accent)!important}
 .search-box{flex:1;max-width:480px;position:relative}
-.search-box input{width:100%;height:40px;border:1.5px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);padding:0 16px 0 38px;font-size:13px;font-family:inherit;outline:none;transition:all .2s}
+.search-box input{width:100%;height:40px;border:1.5px solid var(--text3);border-radius:10px;background:var(--card);color:var(--text);padding:0 16px 0 38px;font-size:13px;font-family:inherit;outline:none;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.search-box input::placeholder{color:var(--text3)}
 .search-box .material-symbols-rounded{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text3)}
 .header-actions{display:flex;align-items:center;gap:4px;margin-left:auto}
 .icon-btn{width:36px;height:36px;border:none;border-radius:10px;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
