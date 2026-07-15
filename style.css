@@ -6,8 +6,8 @@
   --border:#D6D3CD;--shadow:0 1px 3px rgba(0,0,0,0.06);
   --radius:16px;--radius-sm:12px;--radius-pill:28px;
   --nav-h:64px;
-  --cat-chem:#C0392B;--cat-conv:#8E44AD;--cat-kin:#E67E22;
-  --cat-less:#0D9488;--cat-rest:#27AE60;--cat-strike:#F39C12;
+  --cat-chem:#C0392B;--cat-conv:#8D2D23;--cat-kin:#57534E;
+  --cat-less:#4E99F6;--cat-rest:#4B5563;--cat-strike:#2C2C2C;
   --heading-font:'Space Grotesk',sans-serif;
   --body-font:'Inter',sans-serif;
 }
