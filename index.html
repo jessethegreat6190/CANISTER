@@ -127,11 +127,11 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .meta-item span{font-size:14px;font-weight:500}
 .modal-link{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#fff;border-radius:var(--radius-pill);text-decoration:none;font-weight:700;font-size:14px;transition:all .2s;text-transform:uppercase;letter-spacing:.03em;font-family:var(--heading-font)}
 .modal-link:hover{background:var(--accent2);transform:translateY(-1px)}
-.about-section{max-width:800px;margin:0 auto}
+.about-section{max-width:800px;margin:0 auto;text-align:center}
 .about-section h2{font-size:28px;font-weight:800;margin-bottom:16px}
 .about-section p{font-size:16px;line-height:1.8;color:var(--text2);margin-bottom:20px}
-.partners{display:flex;align-items:center;gap:32px;margin-top:32px;flex-wrap:wrap}
-.partners img{height:40px;filter:grayscale(30%);opacity:.8;transition:all .2s}
+.partners{display:flex;align-items:center;justify-content:center;gap:48px;margin-top:32px;flex-wrap:wrap}
+.partners img{height:80px;filter:grayscale(30%);opacity:.8;transition:all .2s;max-width:200px;object-fit:contain}
 .partners img:hover{filter:grayscale(0);opacity:1}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:center;padding:12px 16px 16px;background:transparent;border:none;pointer-events:none}
 .bottom-nav-inner{display:flex;align-items:center;gap:2px;padding:4px 6px;background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--glass-border);border-radius:32px;box-shadow:0 4px 24px rgba(0,0,0,0.08);pointer-events:auto}
@@ -174,13 +174,6 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 
 <div class="filters-bar" id="filtersBar"></div>
 
-  <div class="kpi-bar">
-    <div class="kpi-card"><span class="material-symbols-rounded">inventory_2</span><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
-    <div class="kpi-card"><span class="material-symbols-rounded">public</span><div class="kpi-info"><h3 id="kpiCountries">42</h3><p>Countries</p></div></div>
-    <div class="kpi-card"><span class="material-symbols-rounded">link</span><div class="kpi-info"><h3 id="kpiSources">132</h3><p>Sources Tracked</p></div></div>
-    <div class="kpi-card"><span class="material-symbols-rounded">schedule</span><div class="kpi-info"><h3>2026</h3><p>Last Updated</p></div></div>
-  </div>
-
 <div class="skeleton-screen" id="skeletonScreen">
   <div class="s-kpi">
     <div class="skeleton-card"><div class="s-kpi-placeholder shimmer" style="height:60px;border-radius:var(--radius-sm)"></div></div>
@@ -192,6 +185,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 </div>
 <div class="view-container">
   <div class="view-panel" id="gridView">
+    <div class="kpi-bar">
+      <div class="kpi-card"><span class="material-symbols-rounded">inventory_2</span><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
+      <div class="kpi-card"><span class="material-symbols-rounded">public</span><div class="kpi-info"><h3 id="kpiCountries">42</h3><p>Countries</p></div></div>
+      <div class="kpi-card"><span class="material-symbols-rounded">link</span><div class="kpi-info"><h3 id="kpiSources">132</h3><p>Sources Tracked</p></div></div>
+      <div class="kpi-card"><span class="material-symbols-rounded">schedule</span><div class="kpi-info"><h3>2026</h3><p>Last Updated</p></div></div>
+    </div>
     <div class="grid-view" id="gridContainer"></div>
     <div class="empty-state" id="emptyState" style="display:none">
       <span class="material-symbols-rounded">search_off</span>
