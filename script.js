@@ -299,6 +299,15 @@ function mobileNav(view,btn){
   document.querySelectorAll('.bottom-nav-item').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   showView(view);
+  moveNavIndicator(btn);
+}
+function moveNavIndicator(el){
+  const indicator = document.getElementById('navIndicator');
+  if(!indicator) return;
+  const rect = el.getBoundingClientRect();
+  const parentRect = el.parentElement.getBoundingClientRect();
+  indicator.style.left = (rect.left - parentRect.left) + 'px';
+  indicator.style.width = rect.width + 'px';
 }
 
 function toggleTheme(){
@@ -443,6 +452,7 @@ document.addEventListener('keydown',e=>{
 renderFilters();
 renderGrid();
 setupScrollTracking();
+moveNavIndicator(document.querySelector('.bottom-nav-item.active'));
 // Map is rendered only when user navigates to Map tab
 // Hide skeleton immediately
 document.getElementById('skeletonScreen').classList.add('hide');
