@@ -6,8 +6,6 @@
   --border:#D6D3CD;--shadow:0 1px 3px rgba(0,0,0,0.06);
   --radius:16px;--radius-sm:12px;--radius-pill:28px;
   --nav-h:64px;
-  --cat-chem:#C0392B;--cat-conv:#8D2D23;--cat-kin:#57534E;
-  --cat-less:#4E99F6;--cat-rest:#4B5563;--cat-strike:#2C2C2C;
   --heading-font:'Space Grotesk',sans-serif;
   --body-font:'Inter',sans-serif;
 }
@@ -71,13 +69,7 @@ header{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px 
 .card-img{width:100%;aspect-ratio:4/3;background:var(--bg2);overflow:hidden;position:relative}
 .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .card:hover .card-img img{transform:scale(1.05)}
-.card-img .cat-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:6px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#fff}
-.cat-badge.Chemical{background:var(--cat-chem)}
-.cat-badge.Conventional{background:var(--cat-conv)}
-.cat-badge.Kinetic{background:var(--cat-kin)}
-.cat-badge.Less{background:var(--cat-less)}
-.cat-badge.Restraints{background:var(--cat-rest)}
-.cat-badge.Striking{background:var(--cat-strike)}
+.card-img .cat-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:rgba(230,184,156,0.3);color:#8D2D23;border:1px solid rgba(230,184,156,0.4)}
 .card-body{padding:14px}
 .card-body h3{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-.01em;font-family:var(--heading-font)}
 .card-meta{display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:var(--text3)}

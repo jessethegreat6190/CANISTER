@@ -136,7 +136,7 @@ const records = [
 
 const ALL_CATEGORIES = ["Chemical","Conventional Weapons","Kinetic Impact Projectiles","Less Lethal Launchers","Restraints","Striking Weapons"];
 const CAT_ICONS = {"Chemical":"science","Conventional Weapons":"bomb","Kinetic Impact Projectiles":"adjust","Less Lethal Launchers":"sports_martial_arts","Restraints":"lock","Striking Weapons":"sports_baseball"};
-const CAT_COLORS = {"Chemical":"var(--cat-chem)","Conventional Weapons":"var(--cat-conv)","Kinetic Impact Projectiles":"var(--cat-kin)","Less Lethal Launchers":"var(--cat-less)","Restraints":"var(--cat-rest)","Striking Weapons":"var(--cat-strike)"};
+const CAT_COLORS = {"Chemical":"#8D2D23","Conventional Weapons":"#8D2D23","Kinetic Impact Projectiles":"#8D2D23","Less Lethal Launchers":"#8D2D23","Restraints":"#8D2D23","Striking Weapons":"#8D2D23"};
 
 let activeFilter = "All";
 let searchTerm = "";
@@ -179,7 +179,7 @@ function renderFilters(){
   const bar = document.getElementById("filtersBar");
   let html = `<button class="filter-pill ${activeFilter==='All'?'active':''}" onclick="setFilter('All')">All <span class="badge">${records.length}</span></button>`;
   ALL_CATEGORIES.forEach(c => {
-    html += `<button class="filter-pill ${activeFilter===c?'active':''}" onclick="setFilter('${c}')"><span class="material-symbols-rounded" style="font-size:14px;color:${activeFilter===c?'#fff':CAT_COLORS[c]}">${CAT_ICONS[c]}</span> ${c} <span class="badge">${counts[c]}</span></button>`;
+    html += `<button class="filter-pill ${activeFilter===c?'active':''}" onclick="setFilter('${c}')"><span class="material-symbols-rounded" style="font-size:13px">${CAT_ICONS[c]}</span> ${c} <span class="badge">${counts[c]}</span></button>`;
   });
   bar.innerHTML = html;
 }
