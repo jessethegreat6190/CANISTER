@@ -130,10 +130,14 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .modal-link:hover{background:var(--accent2);transform:translateY(-1px)}
 .about-section{max-width:800px;margin:0 auto;text-align:center}
 .about-section h2{font-size:28px;font-weight:800;margin-bottom:16px}
-.about-section p{font-size:16px;line-height:1.8;color:var(--text2);margin-bottom:20px}
+.about-section p{font-size:16px;line-height:1.8;color:var(--text2);margin-bottom:20px;min-height:1.8em}
+.about-typing::after{content:'|';animation:blink .8s step-end infinite;color:var(--accent);margin-left:2px}
+@keyframes blink{50%{opacity:0}}
 .partners{display:flex;align-items:center;justify-content:center;gap:48px;margin-top:32px;flex-wrap:wrap}
+.partners a{display:inline-flex;line-height:0;transition:opacity .2s}
+.partners a:hover{opacity:.7}
 .partners img{height:80px;filter:grayscale(30%);opacity:.8;transition:all .2s;max-width:200px;object-fit:contain}
-.partners img:hover{filter:grayscale(0);opacity:1}
+.partners a:hover img{filter:grayscale(0);opacity:1}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:center;padding:12px 16px 16px;background:transparent;border:none;pointer-events:none}
 .bottom-nav-inner{display:flex;align-items:center;gap:2px;padding:4px 6px;background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--glass-border);border-radius:32px;box-shadow:0 4px 24px rgba(0,0,0,0.08);pointer-events:auto}
 .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:8px 22px;background:transparent;border:none;border-radius:28px;color:var(--text3);cursor:pointer;font-size:11px;font-weight:400;font-family:var(--body-font);text-transform:none;letter-spacing:0;transition:all .15s}
@@ -213,14 +217,14 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   <div class="view-panel" id="aboutView">
     <div class="about-section">
       <h2>About Canister Archive</h2>
-      <p>Canister Archive is the world's largest open database tracking tear gas use. We collect and verify information about tear gas canisters used in protests and demonstrations worldwide.</p>
-      <p>Our database helps journalists investigate police tactics, supports researchers studying crowd control methods, and gives communities the information they need to demand accountability.</p>
-      <p>This project started when young protesters began documenting the tear gas used against them. What began as collected evidence has grown into a global archive.</p>
+      <p id="aboutTxt0" class="about-typing"></p>
+      <p id="aboutTxt1" class="about-typing"></p>
+      <p id="aboutTxt2" class="about-typing"></p>
       <h3 style="margin-top:32px;font-size:18px;font-weight:700">Partners</h3>
       <div class="partners">
-        <img src="https://canister.thraets.org/amnesty.svg" alt="Amnesty International" loading="lazy" onerror="this.style.display='none'">
-        <img src="https://canister.thraets.org/omega.png" alt="Omega Research Foundation" loading="lazy" onerror="this.style.display='none'">
-        <img src="https://canister.thraets.org/thraets.png" alt="Thraets" loading="lazy" onerror="this.style.display='none'">
+        <a href="https://www.amnesty.org" target="_blank" rel="noopener noreferrer"><img src="https://canister.thraets.org/amnesty.svg" alt="Amnesty International" loading="lazy" onerror="this.style.display='none'"></a>
+        <a href="https://omegaresearchfoundation.org" target="_blank" rel="noopener noreferrer"><img src="https://canister.thraets.org/omega.png" alt="Omega Research Foundation" loading="lazy" onerror="this.style.display='none'"></a>
+        <a href="https://thraets.org" target="_blank" rel="noopener noreferrer"><img src="https://canister.thraets.org/thraets.png" alt="Thraets" loading="lazy" onerror="this.style.display='none'"></a>
       </div>
     </div>
   </div>
@@ -506,6 +510,32 @@ function closeModal(e){
   }
 }
 
+const aboutTexts = [
+  "Canister Archive is the world's largest open database tracking tear gas use. We collect and verify information about tear gas canisters used in protests and demonstrations worldwide.",
+  "Our database helps journalists investigate police tactics, supports researchers studying crowd control methods, and gives communities the information they need to demand accountability.",
+  "This project started when young protesters began documenting the tear gas used against them. What began as collected evidence has grown into a global archive."
+];
+let aboutTyping = false;
+
+function typeAbout(){
+  if(aboutTyping) return;
+  aboutTyping = true;
+  aboutTexts.forEach((t,i) => document.getElementById('aboutTxt'+i).textContent = '');
+  let idx = 0, ci = 0;
+  function tick(){
+    if(idx >= aboutTexts.length){ aboutTyping = false; return; }
+    const el = document.getElementById('aboutTxt'+idx);
+    if(ci < aboutTexts[idx].length){
+      el.textContent += aboutTexts[idx][ci++];
+      setTimeout(tick, 12);
+    } else {
+      idx++; ci = 0;
+      setTimeout(tick, 200);
+    }
+  }
+  tick();
+}
+
 function showView(view){
   currentView = view;
   document.querySelectorAll('.view-panel').forEach(p=>p.classList.remove('active'));
@@ -515,6 +545,7 @@ function showView(view){
   document.getElementById('searchBox').style.display = isGrid ? '' : 'none';
 
   if(view==='map') renderMap();
+  if(view==='about') typeAbout();
 }
 
 function mobileNav(view,btn){
