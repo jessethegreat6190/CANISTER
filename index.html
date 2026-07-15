@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Barlow:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-
+<script src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -108,6 +108,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text2)}
 .empty-state p{font-size:14px;max-width:400px}
 
+#mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;position:relative;margin-bottom:24px}
 .map-text{font-family:var(--body-font);color:var(--text);line-height:1.6}
 .map-heading{font-family:var(--heading-font);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:20px;color:var(--text)}
 .map-country{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:2px}
@@ -204,6 +205,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   </div>
 
   <div class="view-panel active" id="mapView">
+    <div id="mapChartContainer"></div>
     <div class="map-text">
       <h2 class="map-heading">Companies behind the munitions</h2>
       <div id="mapCompanies"></div>
@@ -548,6 +550,7 @@ document.getElementById('searchInput').addEventListener('input', function(e){
 
 // Companies behind the munitions - exact copy from original site
 function renderMap(){
+  initMapChart();
   const container = document.getElementById('mapCompanies');
   container.innerHTML = `
     <div class="map-country">Brazil</div>
@@ -557,6 +560,35 @@ function renderMap(){
     <div class="map-diamond">&#9826;</div>
     <div class="map-company">BSF Tear Smoke Unit</div>
   `;
+}
+
+function initMapChart(){
+  if(typeof google === 'undefined' || !google.visualization){
+    google.charts.load('current', {packages:['geochart']});
+    google.charts.setOnLoadCallback(drawMapChart);
+  } else {
+    drawMapChart();
+  }
+}
+
+function drawMapChart(){
+  const container = document.getElementById('mapChartContainer');
+  const data = new google.visualization.DataTable();
+  data.addColumn('string','Country');
+  data.addColumn('number','Count');
+  data.addColumn({type:'string', role:'tooltip'});
+  data.addRow(['BR',1,'Brazil: Condor Non-Lethal Technologies']);
+  data.addRow(['IN',1,'India: BSF Tear Smoke Unit']);
+  const chart = new google.visualization.GeoChart(container);
+  chart.draw(data, {
+    width:'100%', height:400,
+    colorAxis:{colors:['#C0392B','#C0392B']},
+    backgroundColor:'transparent',
+    datalessRegionColor:'transparent',
+    defaultColor:'transparent',
+    legend:'none',
+    tooltip:{textStyle:{fontFamily:'PT Sans',fontSize:13}}
+  });
 }
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
