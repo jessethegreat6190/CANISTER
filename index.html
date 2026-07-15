@@ -104,17 +104,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text2)}
 .empty-state p{font-size:14px;max-width:400px}
 
-.companies-panel{display:flex;flex-direction:column;gap:0}
-.companies-heading{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:6px}
-.companies-heading .material-symbols-rounded{font-size:20px}
-.companies-footnote{font-size:11px;color:var(--text3);font-style:italic;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
-.company-country{margin-bottom:20px}
-.company-country h3{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.company-country h3::before{content:'\2666';color:var(--accent);font-size:16px}
-.company-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;transition:all .15s}
-.company-item:hover{background:var(--card-hover);border-color:var(--accent)}
-.company-item .material-symbols-rounded{font-size:18px;color:var(--accent2);flex-shrink:0}
-.company-item .company-name{font-size:13px;font-weight:600;color:var(--text)}
+.map-text{font-family:var(--body-font);color:var(--text);line-height:1.6}
+.map-heading{font-family:var(--heading-font);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:20px;color:var(--text)}
+.map-country{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.map-diamond{font-size:13px;color:var(--accent);margin-bottom:2px}
+.map-company{font-size:14px;color:var(--text);margin-bottom:16px}
+.map-note{font-size:12px;color:var(--text3);font-style:italic;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);border-radius:var(--radius);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.2);position:relative;animation:modalIn .25s ease}
@@ -205,10 +200,10 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   </div>
 
   <div class="view-panel active" id="mapView">
-    <div class="companies-panel">
-      <h2 class="companies-heading"><span class="material-symbols-rounded">business</span> Companies behind the munitions</h2>
-      <div id="companiesList"></div>
-      <p class="companies-footnote">* Showing aggregated company headquarters.</p>
+    <div class="map-text">
+      <h2 class="map-heading">Companies behind the munitions</h2>
+      <div id="mapCompanies"></div>
+      <p class="map-note">* Showing aggregated company headquarters.</p>
     </div>
   </div>
 
@@ -513,7 +508,7 @@ function showView(view){
   document.querySelectorAll('.view-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(view+'View').classList.add('active');
 
-  if(view==='map') renderCompanies();
+  if(view==='map') renderMap();
 }
 
 function mobileNav(view,btn){
@@ -547,28 +542,17 @@ document.getElementById('searchInput').addEventListener('input', function(e){
   }
 })();
 
-// Companies behind the munitions
-const companiesByCountry = {
-  "Brazil": ["Condor Non-Lethal Technologies"],
-  "India": ["BSF Tear Smoke Unit"],
-  "North Macedonia": ["ICEMAK LTD"],
-  "USA": ["Combined Tactical Systems", "NonLethal Technologies Inc", "SABRE"]
-};
-
-function renderCompanies(){
-  const container = document.getElementById('companiesList');
-  const entries = Object.entries(companiesByCountry);
-  container.innerHTML = entries.map(([country, companies]) =>
-    `<div class="company-country">
-      <h3>${country}</h3>
-      ${companies.map(c =>
-        `<div class="company-item">
-          <span class="material-symbols-rounded">precision_manufacturing</span>
-          <span class="company-name">${c}</span>
-        </div>`
-      ).join('')}
-    </div>`
-  ).join('');
+// Companies behind the munitions - exact copy from original site
+function renderMap(){
+  const container = document.getElementById('mapCompanies');
+  container.innerHTML = `
+    <div class="map-country">Brazil</div>
+    <div class="map-diamond">&#9826;</div>
+    <div class="map-company">Condor Non-Lethal Technologies</div>
+    <div class="map-country">India</div>
+    <div class="map-diamond">&#9826;</div>
+    <div class="map-company">BSF Tear Smoke Unit</div>
+  `;
 }
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
@@ -591,7 +575,7 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
-renderCompanies();
+renderMap();
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
