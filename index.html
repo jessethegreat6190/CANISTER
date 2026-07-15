@@ -106,9 +106,6 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state p{font-size:14px;max-width:400px}
 
 .map-panel{display:flex;flex-direction:column;gap:16px}
-.map-modes{display:flex;gap:4px}
-.map-mode-btn{padding:10px 20px;border-radius:var(--radius-pill);border:2px solid var(--border);background:var(--card);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--heading-font);text-transform:uppercase;letter-spacing:.03em;display:flex;align-items:center;gap:6px}
-.map-mode-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 #geochart-container{width:100%;min-height:500px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;position:relative}
 
 canvas{max-width:100%}
@@ -192,7 +189,7 @@ canvas{max-width:100%}
   <div class="s-grid" id="skeletonGrid"></div>
 </div>
 <div class="view-container">
-  <div class="view-panel active" id="gridView">
+  <div class="view-panel" id="gridView">
     <div class="grid-view" id="gridContainer"></div>
     <div class="empty-state" id="emptyState" style="display:none">
       <span class="material-symbols-rounded">search_off</span>
@@ -201,13 +198,9 @@ canvas{max-width:100%}
     </div>
   </div>
 
-  <div class="view-panel" id="mapView">
+  <div class="view-panel active" id="mapView">
     <div class="map-panel">
-      <div class="map-modes" id="mapModes">
-        <button class="map-mode-btn active" data-mode="origin" onclick="setMapMode('origin')"><span class="material-symbols-rounded">public</span> Origin Countries</button>
-        <button class="map-mode-btn" data-mode="recovery" onclick="setMapMode('recovery')"><span class="material-symbols-rounded">location_on</span> Recovery Locations</button>
-        <button class="map-mode-btn" data-mode="flow" onclick="setMapMode('flow')"><span class="material-symbols-rounded">swap_horiz</span> Flow Intelligence</button>
-      </div>
+      <h2 style="font-family:var(--heading-font);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);margin-bottom:4px"><span class="material-symbols-rounded" style="font-size:18px;vertical-align:-3px;margin-right:4px">public</span> Origin Countries</h2>
       <div id="geochart-container"></div>
     </div>
   </div>
@@ -530,7 +523,7 @@ function toggleTheme(){
   localStorage.setItem('theme', isDark?'light':'dark');
   const icon = document.querySelector('#themeToggle .material-symbols-rounded');
   icon.textContent = isDark?'dark_mode':'light_mode';
-  if(geoChart) initGeoChart();
+  initGeoChart();
 }
 
 // Search
@@ -550,29 +543,8 @@ document.getElementById('searchInput').addEventListener('input', function(e){
 })();
 
 // GeoChart
-function getCountryMapping(){
-  const originCounts = {};
-  const recoveryCounts = {};
-  const originCountries = {
-    "United States":"USA","USA":"United States","United States of America":"United States","USA / Greece":"United States",
-    "USA / Israel":"United States","Minnesota":"United States","Chicago":"United States","Portland":"United States",
-    "Pittsburgh":"United States","Washington DC":"United States","New Mexico":"United States","Los Angles":"United States",
-    "Florida":"United States","California":"United States","Minneapolis":"United States","USA / Egypt":"United States"
-  };
-  const recoveryMapping = {
-    "California":"US","USA":"US","United States of America":"US","Minnesota":"US","Chicago":"US","Portland":"US",
-    "Pittsburgh":"US","Washington DC":"US","New Mexico":"US","Los Angles":"US","Florida":"US","Minneapolis":"US",
-    "USA / Greece":"GR","USA / Israel":"IL","Greece":"GR","Albania":"AL","Tunisia":"TN","Bolivia":"BO",
-    "Lebanon":"LB","Morocco":"MA","Israel":"IL","India":"IN","Zambia":"ZM","Nigeria":"NG","Sudan":"SD",
-    "Burhan":"SD","Tanzania":"TZ","HongKong":"HK","Iran":"IR","Palestine":"PS","Tehran":"IR","Algeria":"DZ",
-    "Ukraine":"UA","London":"GB","Bahrain":"BH","Calais":"FR","Egypt":"EG","Santiago":"CL",
-    "United States of America":"US","Dhaka":"BD","Kenya":"KE","Myanmar":"MM","Sri Lanka":"LK",
-    "Somalia":"SO","Swaziland":"SZ","USA / Israel":"IL","San Juan":"PR","Georgia":"GE","Montreal":"CA",
-    "Jerusalem":"IL","Senegal":"SN","Uganda":"UG","Nairobi":"KE","Kisumu":"KE","Mozambique":"MZ",
-    "Nairobi / North Macedonia":"MK","North Macedonia / Nairobi":"MK","India / Mozambique":"IN",
-    "Brazil / Uganda":"BR","USA / Egypt":"EG","Al-Aqsa":"IL","Mecca":"SA","Nepal":"NP",
-    "USA / Greece":"GR","Togo":"TG","Gambia":"GM","Bangladesh":"BD","Indonesia":"ID","Jordan":"JO"
-  };
+function getOriginCounts(){
+  const counts = {};
   const originMap = {
     "United States":"US","USA":"US","Greece":"GR","Albania":"AL","Tunisia":"TN","Bolivia":"BO",
     "Lebanon":"LB","Morocco":"MA","Israel":"IL","India":"IN","Zambia":"ZM","Nigeria":"NG","Sudan":"SD",
@@ -587,13 +559,10 @@ function getCountryMapping(){
     "Los Angles":"US","Florida":"US","Minneapolis":"US","California":"US"
   };
   records.forEach(r=>{
-    const loc = r[4];
-    const country = originMap[loc]||loc;
-    if(country) originCounts[country] = (originCounts[country]||0)+1;
-    const reco = recoveryMapping[loc]||loc;
-    if(reco) recoveryCounts[reco] = (recoveryCounts[reco]||0)+1;
+    const c = originMap[r[4]]||r[4];
+    if(c) counts[c] = (counts[c]||0)+1;
   });
-  return {originCounts, recoveryCounts};
+  return counts;
 }
 
 const countryCoords = {
@@ -610,16 +579,6 @@ const countryCoords = {
   "GM":[13.4432,-15.3101],"ID":[-0.7893,113.9213],"JO":[30.5852,36.2384]
 };
 
-let currentMapMode = "origin";
-
-function setMapMode(mode){
-  currentMapMode = mode;
-  document.querySelectorAll('.map-mode-btn').forEach(b=>{
-    b.classList.toggle('active', b.dataset.mode===mode);
-  });
-  initGeoChart();
-}
-
 function initGeoChart(){
   if(typeof google === 'undefined' || !google.visualization){
     google.charts.load('current', {packages:['geochart','corechart']});
@@ -631,68 +590,23 @@ function initGeoChart(){
 
 function drawGeoChart(){
   const container = document.getElementById('geochart-container');
-  const {originCounts, recoveryCounts} = getCountryMapping();
+  const counts = getOriginCounts();
   const data = new google.visualization.DataTable();
-  
-  if(currentMapMode === "flow"){
-    data.addColumn('string','From');
-    data.addColumn('string','To');
-    data.addColumn('number','Weight');
-    data.addColumn({type:'string', role:'tooltip'});
-    const flows = {};
-    records.forEach(r=>{
-      const loc = r[4];
-      const originMap = {
-        "California":"US","USA":"US","United States of America":"US","Minnesota":"US","Chicago":"US","Portland":"US",
-        "Pittsburgh":"US","Washington DC":"US","New Mexico":"US","Los Angles":"US","Florida":"US","Minneapolis":"US",
-        "USA / Greece":"US","USA / Israel":"US","Greece":"GR","Albania":"AL","Tunisia":"TN","Bolivia":"BO",
-        "Lebanon":"LB","Morocco":"MA","Israel":"IL","India":"IN","Zambia":"ZM","Nigeria":"NG","Sudan":"SD",
-        "Burhan":"SD","Tanzania":"TZ","HongKong":"CN","Iran":"IR","Palestine":"PS","Algeria":"DZ",
-        "Ukraine":"UA","London":"GB","Bahrain":"BH","Calais":"FR","Egypt":"EG","Santiago":"CL",
-        "Dhaka":"BD","Kenya":"KE","Myanmar":"MM","Sri Lanka":"LK","Somalia":"SO","Swaziland":"SZ",
-        "San Juan":"PR","Georgia":"GE","Montreal":"CA","Jerusalem":"IL","Senegal":"SN","Uganda":"UG",
-        "Nairobi":"KE","Kisumu":"KE","Mozambique":"MZ","North Macedonia / Nairobi":"MK",
-        "India / Mozambique":"IN","Brazil / Uganda":"BR","Al-Aqsa":"PS","Mecca":"SA","Nepal":"NP",
-        "Togo":"TG","Gambia":"GM","Bangladesh":"BD","Indonesia":"ID"
-      };
-      const o = originMap[loc]||"US";
-      const key = o+"->US";
-      if(o !== "US"){
-        flows[key] = flows[key]||{from:o,to:"US",count:0};
-        flows[key].count++;
-      }
-    });
-    Object.values(flows).forEach(f=>{
-      const fromName = Object.keys(countryCoords).find(k=>k===f.from)||f.from;
-      data.addRow([f.from,"US",f.count,`${fromName} to US: ${f.count} items`]);
-    });
-    const chart = new google.visualization.GeoChart(container);
-    chart.draw(data, {
-      width:'100%', height:500,
-      colorAxis:{colors:['#F9F7F1','#C0392B']},
-      backgroundColor:'transparent',
-      dataMode:'regions',
-      tooltip:{textStyle:{fontFamily:'PT Sans'}},
-      legend:'none'
-    });
-  } else {
-    data.addColumn('string','Country');
-    data.addColumn('number','Count');
-    data.addColumn({type:'string', role:'tooltip'});
-    const map = currentMapMode==="origin"?originCounts:recoveryCounts;
-    Object.entries(map).forEach(([k,v])=>{
-      if(countryCoords[k]) data.addRow([k,v,`${k}: ${v} items`]);
-    });
-    const chart = new google.visualization.GeoChart(container);
-    chart.draw(data, {
-      width:'100%', height:500,
-      colorAxis:{colors:['#F0EDE3','#C0392B']},
-      backgroundColor:'transparent',
-      legend:'none',
-      tooltip:{textStyle:{fontFamily:'PT Sans'}}
-    });
-    geoChart = chart;
-  }
+  data.addColumn('string','Country');
+  data.addColumn('number','Count');
+  data.addColumn({type:'string', role:'tooltip'});
+  Object.entries(counts).forEach(([k,v])=>{
+    if(countryCoords[k]) data.addRow([k,v,`${k}: ${v} items`]);
+  });
+  const chart = new google.visualization.GeoChart(container);
+  chart.draw(data, {
+    width:'100%', height:500,
+    colorAxis:{colors:['#F0EDE3','#C0392B']},
+    backgroundColor:'transparent',
+    legend:'none',
+    tooltip:{textStyle:{fontFamily:'PT Sans'}}
+  });
+  geoChart = chart;
 }
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
@@ -715,6 +629,7 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
+initGeoChart();
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
