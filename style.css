@@ -113,10 +113,13 @@ header{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px 
 .modal-link:hover{background:var(--accent2);transform:translateY(-1px)}
 .about-section{max-width:800px;margin:0 auto;text-align:center}
 .about-section h2{font-size:28px;font-weight:700;margin-bottom:16px}
+.est{display:inline-block;font-family:var(--heading-font);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);padding:3px 12px;border:1.5px solid var(--accent);border-radius:6px;margin-bottom:12px}
 .about-section p{font-size:16px;line-height:1.8;color:var(--text2);margin-bottom:20px;min-height:1.8em}
+.about-tagline{margin-top:40px;font-size:13px;font-style:italic;color:var(--text3);letter-spacing:.03em}
 .about-typing::after{content:''}
 .partners{display:flex;align-items:center;justify-content:center;gap:64px;margin-top:32px;flex-wrap:wrap}
-.partners a{display:inline-flex;line-height:0;transition:opacity .2s}
+.partners a{display:flex;flex-direction:column;align-items:center;gap:8px;line-height:0;transition:opacity .2s}
+.partners a span{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.02em;font-family:var(--heading-font)}
 .partners a:hover{opacity:.7}
 .partners img{height:120px;filter:grayscale(30%);opacity:.8;transition:all .2s;max-width:280px;object-fit:contain}
 .partners a:hover img{filter:grayscale(0);opacity:1}
