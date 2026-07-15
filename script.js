@@ -382,7 +382,7 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
-renderMap();
+// Map is rendered only when user navigates to Map tab
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
