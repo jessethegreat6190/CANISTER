@@ -212,7 +212,6 @@ function renderGrid(){
     </div>`;
   }).join("");
   lazyLoadImages();
-  setupScrollTracking();
 }
 
 function lazyLoadImages(){
@@ -396,42 +395,7 @@ function drawMapChart(){
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
 
-let scrollTrackTimer = null;
-let scrollActiveCat = '';
-function setupScrollTracking(){
-  const container = document.getElementById('gridContainer');
-  if(!container) return;
-  const onScroll = () => {
-    if(activeFilter !== 'All') return;
-    if(scrollTrackTimer) clearTimeout(scrollTrackTimer);
-    scrollTrackTimer = setTimeout(() => {
-      const cards = container.querySelectorAll('.card');
-      if(!cards.length) return;
-      let best = '', bestDist = Infinity;
-      const cxm = window.innerWidth / 2, cym = window.innerHeight / 2;
-      cards.forEach(c => {
-        const r = c.getBoundingClientRect();
-        if(r.bottom < 0 || r.top > window.innerHeight) return;
-        const cx = r.left + r.width/2, cy = r.top + r.height/2;
-        const dist = Math.abs(cx - cxm) + Math.abs(cy - cym);
-        if(dist < bestDist){
-          const idx = parseInt(c.getAttribute('onclick').match(/\d+/)[0]);
-          const cat = getPrimaryCat(records[idx]);
-          if(cat) { best = cat; bestDist = dist; }
-        }
-      });
-      if(!best || best === scrollActiveCat) return;
-      scrollActiveCat = best;
-      document.querySelectorAll('.filter-pill').forEach(p => {
-        const cat = p.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
-        p.classList.toggle('active', cat === best);
-      });
-    },100);
-  };
-  container.removeEventListener('scroll', onScroll);
-  window.removeEventListener('scroll', onScroll);
-  window.addEventListener('scroll', onScroll, {passive:true});
-}
+
 
 // Keyboard
 document.addEventListener('keydown',e=>{
@@ -451,7 +415,6 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
-setupScrollTracking();
 moveNavIndicator(document.querySelector('.bottom-nav-item.active'));
 // Map is rendered only when user navigates to Map tab
 // Hide skeleton immediately
