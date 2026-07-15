@@ -105,7 +105,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 
 #mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
 .map-legend{position:absolute;top:10px;left:10px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:8px 12px;z-index:20;min-width:160px}
-.map-heading{font-family:var(--heading-font);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;color:var(--text)}
+.map-heading{font-family:var(--heading-font);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text)}
 .map-country{font-size:10px;font-weight:700;color:var(--accent);margin-bottom:1px;display:flex;align-items:center;gap:4px}
 .map-dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
 .map-diamond{display:none}
@@ -200,14 +200,14 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   </div>
 
   <div class="view-panel active" id="mapView">
-    <div class="map-wrapper" style="position:relative">
+    <div class="map-wrapper" style="position:relative;margin-top:24px">
       <div id="mapChartContainer"></div>
       <div class="map-legend">
-        <h2 class="map-heading">Companies behind the munitions</h2>
         <div id="mapCompanies"></div>
       </div>
       <p class="map-note">* Showing aggregated company headquarters.</p>
     </div>
+    <h2 class="map-heading" style="text-align:center;margin-top:16px;margin-bottom:0">Companies behind the munitions</h2>
   </div>
 
   <div class="view-panel" id="aboutView">
