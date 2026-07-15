@@ -35,8 +35,12 @@ body{font-family:var(--body-font);background:var(--bg2);color:var(--text);transi
 h1,h2,h3,h4,h5,h6{font-family:var(--heading-font);text-transform:uppercase;letter-spacing:.02em}
 .material-symbols-rounded{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}
 header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--glass-border);height:var(--nav-h);display:flex;align-items:center;padding:0 24px;gap:16px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--heading-font);font-weight:700;font-size:18px;color:var(--accent);text-decoration:none;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
-.logo .material-symbols-rounded{font-size:28px;color:var(--accent)}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;color:var(--text);padding:2px;-webkit-user-select:none;user-select:none;transition:color .2s}
+.logo:hover{color:var(--accent)}
+.logo-icon{width:24px;height:24px;flex-shrink:0;color:currentColor}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-text span{font-family:var(--heading-font);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.02em;color:currentColor;line-height:1.1}
+.logo-sub{font-size:9px!important;font-style:italic;font-weight:400!important;letter-spacing:.12em!important;text-transform:none!important;color:var(--text3)}
 .search-box{flex:1;max-width:480px;position:relative}
 .search-box input{width:100%;height:44px;border:2px solid var(--border);border-radius:var(--radius-pill);background:var(--card);color:var(--text);padding:0 20px 0 44px;font-size:14px;font-family:inherit;outline:none;transition:all .2s}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
@@ -52,16 +56,16 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .filter-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .filter-pill .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:rgba(0,0,0,0.08);padding:0 5px;font-size:10px;font-weight:700}
 .filter-pill.active .badge{background:rgba(255,255,255,0.25)}
-.kpi-bar{position:relative;z-index:10;padding:6px 24px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
-.kpi-icon{width:34px;height:34px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kpi-icon .material-symbols-rounded{font-size:18px;color:#fff}
+.kpi-bar{position:relative;z-index:10;padding:6px 24px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
+.kpi-icon{width:26px;height:26px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-icon .material-symbols-rounded{font-size:14px;color:#fff}
 .kpi-icon.total{background:var(--accent)}
 .kpi-icon.countries{background:var(--accent2)}
 .kpi-icon.sources{background:var(--cat-rest)}
 .kpi-icon.updated{background:var(--accent)}
-.kpi-info h3{font-size:18px;font-weight:700;line-height:1.1;text-transform:none;letter-spacing:0}
-.kpi-info p{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-family:var(--heading-font)}
+.kpi-info h3{font-size:14px;font-weight:700;line-height:1.1;text-transform:none;letter-spacing:0}
+.kpi-info p{font-size:9px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-family:var(--heading-font)}
 .view-container{position:relative;z-index:10;padding:0 24px 100px;max-width:1400px;margin:0 auto}
 .view-panel{display:none}
 .view-panel.active{display:block}
@@ -159,7 +163,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 </head>
 <body>
 <header>
-  <a href="#" class="logo" onclick="scrollToTop()">Canister Archive</a>
+  <a href="#" class="logo" onclick="scrollToTop()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="logo-icon" aria-hidden="true"><path d="M15 12h-5"></path><path d="M15 8h-5"></path><path d="M19 17V5a2 2 0 0 0-2-2H4"></path><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"></path></svg><div class="logo-text"><span>Canister</span><span class="logo-sub">Archive</span></div></a>
   <div class="search-box">
     <span class="material-symbols-rounded">search</span>
     <input type="text" id="searchInput" placeholder="Search canisters, locations, categories..." aria-label="Search records">
@@ -241,9 +245,9 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bottom-nav-item active" onclick="mobileNav('map',this)"><span class="material-symbols-rounded">map</span>Map</button>
-    <button class="bottom-nav-item" onclick="mobileNav('about',this)"><span class="material-symbols-rounded">info</span>Info</button>
     <button class="bottom-nav-item" onclick="mobileNav('grid',this)"><span class="material-symbols-rounded">grid_view</span>Grid</button>
+    <button class="bottom-nav-item active" onclick="mobileNav('map',this)"><span class="material-symbols-rounded">map</span>Map</button>
+    <button class="bottom-nav-item" onclick="mobileNav('about',this)"><span class="material-symbols-rounded">info</span>About</button>
   </div>
 </nav>
 
