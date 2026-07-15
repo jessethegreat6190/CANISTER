@@ -372,9 +372,9 @@ function drawMapChart(){
   chart.draw(data, {
     width:'100%', height:400,
     colorAxis:{colors:['#C0392B','#C0392B']},
-    backgroundColor:'#D6EAF8',
-    datalessRegionColor:'#AED6F1',
-    defaultColor:'#AED6F1',
+    backgroundColor:'#F0EDE3',
+    datalessRegionColor:'#E7E2DC',
+    defaultColor:'#E7E2DC',
     legend:'none',
     tooltip:{textStyle:{fontFamily:'Inter',fontSize:13}}
   });
