@@ -203,15 +203,39 @@ function renderGrid(){
     return;
   }
   empty.style.display = "none";
-  container.innerHTML = filtered.map((r,i) => {
-    const img = `${IMG_BASE}${r[1]}/public`;
+  if(activeFilter !== 'All'){
+    container.innerHTML = filtered.map((r,i) => {
+      const img = `${IMG_BASE}${r[1]}/public`;
+      const cat = getPrimaryCat(r[2]);
+      return `<div class="card" onclick="openModal(${records.indexOf(r)})" tabindex="0" role="button" aria-label="${r[0]}">
+        <div class="card-img"><img data-src="${img}" alt="${r[0]}" loading="lazy"><div class="cat-badge ${getBadgeClass(cat)}">${r[2][0]}</div></div>
+        <div class="card-body"><h3>${r[0]}</h3><div class="card-meta"><span><span class="material-symbols-rounded">location_on</span>${r[4]}</span><span><span class="material-symbols-rounded">calendar_today</span>${r[5]}</span></div><a class="card-source" href="${r[3]}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="material-symbols-rounded">open_in_new</span> Source</a></div>
+      </div>`;
+    }).join("");
+    lazyLoadImages();
+    return;
+  }
+  const groups = {};
+  filtered.forEach(r => {
     const cat = getPrimaryCat(r[2]);
-    return `<div class="card" onclick="openModal(${records.indexOf(r)})" tabindex="0" role="button" aria-label="${r[0]}">
-      <div class="card-img"><img data-src="${img}" alt="${r[0]}" loading="lazy"><div class="cat-badge ${getBadgeClass(cat)}">${r[2][0]}</div></div>
-      <div class="card-body"><h3>${r[0]}</h3><div class="card-meta"><span><span class="material-symbols-rounded">location_on</span>${r[4]}</span><span><span class="material-symbols-rounded">calendar_today</span>${r[5]}</span></div><a class="card-source" href="${r[3]}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="material-symbols-rounded">open_in_new</span> Source</a></div>
-    </div>`;
-  }).join("");
+    if(!groups[cat]) groups[cat] = [];
+    groups[cat].push(r);
+  });
+  let html = '';
+  ALL_CATEGORIES.forEach(cat => {
+    if(!groups[cat] || !groups[cat].length) return;
+    html += `<div class="section-header" data-cat="${cat}"><span class="material-symbols-rounded">${CAT_ICONS[cat]}</span>${cat}<span class="section-count">${groups[cat].length}</span></div>`;
+    groups[cat].forEach(r => {
+      const img = `${IMG_BASE}${r[1]}/public`;
+      html += `<div class="card" onclick="openModal(${records.indexOf(r)})" tabindex="0" role="button" aria-label="${r[0]}">
+        <div class="card-img"><img data-src="${img}" alt="${r[0]}" loading="lazy"><div class="cat-badge ${getBadgeClass(cat)}">${r[2][0]}</div></div>
+        <div class="card-body"><h3>${r[0]}</h3><div class="card-meta"><span><span class="material-symbols-rounded">location_on</span>${r[4]}</span><span><span class="material-symbols-rounded">calendar_today</span>${r[5]}</span></div><a class="card-source" href="${r[3]}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="material-symbols-rounded">open_in_new</span> Source</a></div>
+      </div>`;
+    });
+  });
+  container.innerHTML = html;
   lazyLoadImages();
+  if(activeFilter === 'All') setupNavScroll();
 }
 
 function lazyLoadImages(){
@@ -395,6 +419,40 @@ function drawMapChart(){
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
 
+let nextNavCat = '';
+let navScrollTimer = null;
+let navScrollHandler = null;
+function setupNavScroll(){
+  if(navScrollHandler) window.removeEventListener('scroll', navScrollHandler);
+  navScrollHandler = () => {
+    if(activeFilter !== 'All') return;
+    if(navScrollTimer) clearTimeout(navScrollTimer);
+    navScrollTimer = setTimeout(() => {
+      const headers = document.querySelectorAll('.section-header');
+      if(!headers.length) return;
+      let best = '';
+      headers.forEach(h => {
+        const r = h.getBoundingClientRect();
+        if(r.top <= 96 && r.bottom >= 96) best = h.dataset.cat;
+      });
+      if(!best){
+        headers.forEach(h => {
+          const r = h.getBoundingClientRect();
+          if(r.top <= 200) { best = h.dataset.cat; }
+        });
+      }
+      if(!best) best = headers[headers.length-1].dataset.cat;
+      if(best === nextNavCat) return;
+      nextNavCat = best;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        const cat = p.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+        p.classList.toggle('active', cat === best);
+      });
+    },80);
+  };
+  window.addEventListener('scroll', navScrollHandler, {passive:true});
+}
+
 
 
 // Keyboard
@@ -416,6 +474,7 @@ document.addEventListener('keydown',e=>{
 renderFilters();
 renderGrid();
 moveNavIndicator(document.querySelector('.bottom-nav-item.active'));
+setupNavScroll();
 // Map is rendered only when user navigates to Map tab
 // Hide skeleton immediately
 document.getElementById('skeletonScreen').classList.add('hide');
