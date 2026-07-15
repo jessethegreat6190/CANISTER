@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Canister Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Barlow:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -20,8 +20,8 @@
   --nav-h:64px;--bottom-nav-h:60px;
   --cat-chem:#C0392B;--cat-conv:#8E44AD;--cat-kin:#E67E22;
   --cat-less:#2980B9;--cat-rest:#27AE60;--cat-strike:#F39C12;
-  --heading-font:'Barlow',sans-serif;
-  --body-font:'PT Sans',sans-serif;
+  --heading-font:'Poppins',sans-serif;
+  --body-font:'Poppins',sans-serif;
 }
 [data-theme="dark"]{
   --bg:#1A1A2E;--bg2:#16162A;--card:#222244;--card-hover:#2A2A55;
@@ -57,15 +57,10 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .filter-pill .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:rgba(0,0,0,0.08);padding:0 5px;font-size:10px;font-weight:700}
 .filter-pill.active .badge{background:rgba(255,255,255,0.25)}
 .kpi-bar{position:relative;z-index:10;padding:6px 24px 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
-.kpi-icon{width:26px;height:26px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kpi-icon .material-symbols-rounded{font-size:14px;color:#fff}
-.kpi-icon.total{background:var(--accent)}
-.kpi-icon.countries{background:var(--accent2)}
-.kpi-icon.sources{background:var(--cat-rest)}
-.kpi-icon.updated{background:var(--accent)}
-.kpi-info h3{font-size:14px;font-weight:700;line-height:1.1;text-transform:none;letter-spacing:0}
-.kpi-info p{font-size:9px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-family:var(--heading-font)}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 8px;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow)}
+.kpi-card .material-symbols-rounded{font-size:16px;color:var(--accent);flex-shrink:0}
+.kpi-info h3{font-size:13px;font-weight:700;line-height:1;text-transform:none;letter-spacing:0}
+.kpi-info p{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-family:var(--heading-font)}
 .view-container{position:relative;z-index:10;padding:0 24px 100px;max-width:1400px;margin:0 auto}
 .view-panel{display:none}
 .view-panel.active{display:block}
@@ -108,13 +103,14 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text2)}
 .empty-state p{font-size:14px;max-width:400px}
 
-#mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;position:relative;margin-bottom:24px}
-.map-text{font-family:var(--body-font);color:var(--text);line-height:1.6}
-.map-heading{font-family:var(--heading-font);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:20px;color:var(--text)}
-.map-country{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:2px}
-.map-diamond{font-size:13px;color:var(--accent);margin-bottom:2px}
-.map-company{font-size:14px;color:var(--text);margin-bottom:16px}
-.map-note{font-size:12px;color:var(--text3);font-style:italic;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+#mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.map-legend{position:absolute;top:16px;left:16px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 18px;z-index:20;min-width:240px}
+.map-heading{font-family:var(--heading-font);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;color:var(--text)}
+.map-country{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.map-diamond{font-size:12px;color:var(--accent);margin-bottom:2px}
+.map-company{font-size:13px;color:var(--text);margin-bottom:12px}
+.map-company:last-child{margin-bottom:0}
+.map-note{position:absolute;bottom:12px;right:16px;font-size:11px;color:var(--text3);font-style:italic;z-index:20;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px 10px;border-radius:var(--radius-pill);pointer-events:none}
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);border-radius:var(--radius);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.2);position:relative;animation:modalIn .25s ease}
@@ -178,12 +174,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 
 <div class="filters-bar" id="filtersBar"></div>
 
-<div class="kpi-bar">
-  <div class="kpi-card"><div class="kpi-icon total"><span class="material-symbols-rounded">inventory_2</span></div><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
-  <div class="kpi-card"><div class="kpi-icon countries"><span class="material-symbols-rounded">public</span></div><div class="kpi-info"><h3 id="kpiCountries">42</h3><p>Countries</p></div></div>
-  <div class="kpi-card"><div class="kpi-icon sources"><span class="material-symbols-rounded">link</span></div><div class="kpi-info"><h3 id="kpiSources">132</h3><p>Sources Tracked</p></div></div>
-  <div class="kpi-card"><div class="kpi-icon updated"><span class="material-symbols-rounded">schedule</span></div><div class="kpi-info"><h3>2026</h3><p>Last Updated</p></div></div>
-</div>
+  <div class="kpi-bar">
+    <div class="kpi-card"><span class="material-symbols-rounded">inventory_2</span><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
+    <div class="kpi-card"><span class="material-symbols-rounded">public</span><div class="kpi-info"><h3 id="kpiCountries">42</h3><p>Countries</p></div></div>
+    <div class="kpi-card"><span class="material-symbols-rounded">link</span><div class="kpi-info"><h3 id="kpiSources">132</h3><p>Sources Tracked</p></div></div>
+    <div class="kpi-card"><span class="material-symbols-rounded">schedule</span><div class="kpi-info"><h3>2026</h3><p>Last Updated</p></div></div>
+  </div>
 
 <div class="skeleton-screen" id="skeletonScreen">
   <div class="s-kpi">
@@ -205,10 +201,12 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
   </div>
 
   <div class="view-panel active" id="mapView">
-    <div id="mapChartContainer"></div>
-    <div class="map-text">
-      <h2 class="map-heading">Companies behind the munitions</h2>
-      <div id="mapCompanies"></div>
+    <div class="map-wrapper" style="position:relative">
+      <div id="mapChartContainer"></div>
+      <div class="map-legend">
+        <h2 class="map-heading">Companies behind the munitions</h2>
+        <div id="mapCompanies"></div>
+      </div>
       <p class="map-note">* Showing aggregated company headquarters.</p>
     </div>
   </div>
@@ -583,9 +581,9 @@ function drawMapChart(){
   chart.draw(data, {
     width:'100%', height:400,
     colorAxis:{colors:['#C0392B','#C0392B']},
-    backgroundColor:'transparent',
-    datalessRegionColor:'transparent',
-    defaultColor:'transparent',
+    backgroundColor:'#D6EAF8',
+    datalessRegionColor:'#AED6F1',
+    defaultColor:'#AED6F1',
     legend:'none',
     tooltip:{textStyle:{fontFamily:'PT Sans',fontSize:13}}
   });
