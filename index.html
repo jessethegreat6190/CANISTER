@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Barlow:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-<script src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -105,10 +104,17 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text2)}
 .empty-state p{font-size:14px;max-width:400px}
 
-.map-panel{display:flex;flex-direction:column;gap:16px}
-#geochart-container{width:100%;min-height:500px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;position:relative}
-
-canvas{max-width:100%}
+.companies-panel{display:flex;flex-direction:column;gap:0}
+.companies-heading{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.companies-heading .material-symbols-rounded{font-size:20px}
+.companies-footnote{font-size:11px;color:var(--text3);font-style:italic;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.company-country{margin-bottom:20px}
+.company-country h3{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.company-country h3::before{content:'\2666';color:var(--accent);font-size:16px}
+.company-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;transition:all .15s}
+.company-item:hover{background:var(--card-hover);border-color:var(--accent)}
+.company-item .material-symbols-rounded{font-size:18px;color:var(--accent2);flex-shrink:0}
+.company-item .company-name{font-size:13px;font-weight:600;color:var(--text)}
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);border-radius:var(--radius);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.2);position:relative;animation:modalIn .25s ease}
@@ -199,9 +205,10 @@ canvas{max-width:100%}
   </div>
 
   <div class="view-panel active" id="mapView">
-    <div class="map-panel">
-      <h2 style="font-family:var(--heading-font);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);margin-bottom:4px"><span class="material-symbols-rounded" style="font-size:18px;vertical-align:-3px;margin-right:4px">public</span> Origin Countries</h2>
-      <div id="geochart-container"></div>
+    <div class="companies-panel">
+      <h2 class="companies-heading"><span class="material-symbols-rounded">business</span> Companies behind the munitions</h2>
+      <div id="companiesList"></div>
+      <p class="companies-footnote">* Showing aggregated company headquarters.</p>
     </div>
   </div>
 
@@ -389,7 +396,6 @@ const CAT_COLORS = {"Chemical":"var(--cat-chem)","Conventional Weapons":"var(--c
 let activeFilter = "All";
 let searchTerm = "";
 let currentView = "grid";
-let geoChart = null;
 
 function getPrimaryCat(cats){
   const order = ["Chemical","Less Lethal Launchers","Kinetic Impact Projectiles","Conventional Weapons","Restraints","Striking Weapons"];
@@ -507,7 +513,7 @@ function showView(view){
   document.querySelectorAll('.view-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(view+'View').classList.add('active');
 
-  if(view==='map') setTimeout(initGeoChart,100);
+  if(view==='map') renderCompanies();
 }
 
 function mobileNav(view,btn){
@@ -523,7 +529,6 @@ function toggleTheme(){
   localStorage.setItem('theme', isDark?'light':'dark');
   const icon = document.querySelector('#themeToggle .material-symbols-rounded');
   icon.textContent = isDark?'dark_mode':'light_mode';
-  initGeoChart();
 }
 
 // Search
@@ -542,73 +547,28 @@ document.getElementById('searchInput').addEventListener('input', function(e){
   }
 })();
 
-// GeoChart
-function getOriginCounts(){
-  const counts = {};
-  const originMap = {
-    "United States":"US","USA":"US","Greece":"GR","Albania":"AL","Tunisia":"TN","Bolivia":"BO",
-    "Lebanon":"LB","Morocco":"MA","Israel":"IL","India":"IN","Zambia":"ZM","Nigeria":"NG","Sudan":"SD",
-    "Tanzania":"TZ","HongKong":"CN","Iran":"IR","Palestine":"PS","Algeria":"DZ","Ukraine":"UA",
-    "London":"GB","Bahrain":"BH","Calais":"FR","Egypt":"EG","Santiago":"CL","Dhaka":"BD","Kenya":"KE",
-    "Myanmar":"MM","Sri Lanka":"LK","Somalia":"SO","Swaziland":"SZ","USA / Greece":"US",
-    "USA / Israel":"US","San Juan":"PR","Georgia":"GE","Montreal":"CA","Jerusalem":"IL","Senegal":"SN",
-    "Uganda":"UG","Nairobi":"KE","Kisumu":"KE","Mozambique":"MZ","North Macedonia / Nairobi":"MK",
-    "India / Mozambique":"IN","Brazil / Uganda":"BR","USA / Egypt":"US","Al-Aqsa":"PS","Mecca":"SA",
-    "Nepal":"NP","Togo":"TG","Gambia":"GM","Bangladesh":"BD","Indonesia":"ID","Minnesota":"US",
-    "Chicago":"US","Portland":"US","Pittsburgh":"US","Washington DC":"US","New Mexico":"US",
-    "Los Angles":"US","Florida":"US","Minneapolis":"US","California":"US"
-  };
-  records.forEach(r=>{
-    const c = originMap[r[4]]||r[4];
-    if(c) counts[c] = (counts[c]||0)+1;
-  });
-  return counts;
-}
-
-const countryCoords = {
-  "US":[37.0902,-95.7129],"GR":[39.0742,21.8243],"AL":[41.1533,20.1683],"TN":[33.8869,9.5375],
-  "BO":[-16.2902,-63.5887],"LB":[33.8547,35.8623],"MA":[31.7917,-7.0926],"IL":[31.0461,34.8516],
-  "IN":[20.5937,78.9629],"ZM":[-13.1339,27.8493],"NG":[9.082,8.6753],"SD":[12.8628,30.2176],
-  "TZ":[-6.369,34.8888],"CN":[35.8617,104.1954],"IR":[32.4279,53.688],"PS":[31.9522,35.2332],
-  "DZ":[28.0339,1.6596],"UA":[48.3794,31.1656],"GB":[55.3781,-3.436],"BH":[26.0667,50.5577],
-  "FR":[46.2276,2.2137],"EG":[26.8206,30.8025],"CL":[-35.6751,-71.543],"BD":[23.685,90.3563],
-  "KE":[-0.0236,37.9062],"MM":[21.9162,95.956],"LK":[7.8731,80.7718],"SO":[5.1521,46.1996],
-  "SZ":[-26.5225,31.4659],"PR":[18.2208,-66.5901],"GE":[42.3154,43.3569],"CA":[56.1304,-106.3468],
-  "SN":[14.4974,-14.4524],"UG":[1.3733,32.2903],"MZ":[-18.6657,35.5296],"MK":[41.5122,21.7453],
-  "BR":[-14.235,-51.9253],"SA":[23.8859,45.0792],"NP":[28.3949,84.124],"TG":[8.6195,1.208],
-  "GM":[13.4432,-15.3101],"ID":[-0.7893,113.9213],"JO":[30.5852,36.2384]
+// Companies behind the munitions
+const companiesByCountry = {
+  "Brazil": ["Condor Non-Lethal Technologies"],
+  "India": ["BSF Tear Smoke Unit"],
+  "North Macedonia": ["ICEMAK LTD"],
+  "USA": ["Combined Tactical Systems", "NonLethal Technologies Inc", "SABRE"]
 };
 
-function initGeoChart(){
-  if(typeof google === 'undefined' || !google.visualization){
-    google.charts.load('current', {packages:['geochart','corechart']});
-    google.charts.setOnLoadCallback(drawGeoChart);
-  } else {
-    drawGeoChart();
-  }
-}
-
-function drawGeoChart(){
-  const container = document.getElementById('geochart-container');
-  const counts = getOriginCounts();
-  const data = new google.visualization.DataTable();
-  data.addColumn('string','Country');
-  data.addColumn('number','Count');
-  data.addColumn({type:'string', role:'tooltip'});
-  Object.entries(counts).forEach(([k,v])=>{
-    if(countryCoords[k]) data.addRow([k,v,`${k}: ${v} items`]);
-  });
-  const chart = new google.visualization.GeoChart(container);
-  chart.draw(data, {
-    width:'100%', height:500,
-    colorAxis:{colors:['#F0EDE3','#C0392B']},
-    backgroundColor:'transparent',
-    datalessRegionColor:'transparent',
-    defaultColor:'transparent',
-    legend:'none',
-    tooltip:{textStyle:{fontFamily:'PT Sans'}}
-  });
-  geoChart = chart;
+function renderCompanies(){
+  const container = document.getElementById('companiesList');
+  const entries = Object.entries(companiesByCountry);
+  container.innerHTML = entries.map(([country, companies]) =>
+    `<div class="company-country">
+      <h3>${country}</h3>
+      ${companies.map(c =>
+        `<div class="company-item">
+          <span class="material-symbols-rounded">precision_manufacturing</span>
+          <span class="company-name">${c}</span>
+        </div>`
+      ).join('')}
+    </div>`
+  ).join('');
 }
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
@@ -631,7 +591,7 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
-initGeoChart();
+renderCompanies();
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
