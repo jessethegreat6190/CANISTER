@@ -141,6 +141,7 @@ const CAT_COLORS = {"Chemical":"#8D2D23","Conventional Weapons":"#8D2D23","Kinet
 let activeFilter = "All";
 let searchTerm = "";
 let currentView = "grid";
+let scrollTracking = false;
 
 function getPrimaryCat(cats){
   const order = ["Chemical","Less Lethal Launchers","Kinetic Impact Projectiles","Conventional Weapons","Restraints","Striking Weapons"];
@@ -211,6 +212,7 @@ function renderGrid(){
     </div>`;
   }).join("");
   lazyLoadImages();
+  setupScrollTracking();
 }
 
 function lazyLoadImages(){
@@ -385,6 +387,34 @@ function drawMapChart(){
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
 
+let scrollObserver = null;
+function setupScrollTracking(){
+  if(scrollObserver) scrollObserver.disconnect();
+  const cards = document.querySelectorAll('#gridView .card');
+  if(!cards.length) return;
+  const catMap = {};
+  cards.forEach(c => {
+    const idx = parseInt(c.getAttribute('onclick').match(/\d+/)[0]);
+    const r = records[idx];
+    catMap[c.dataset.idx || (c.dataset.idx = idx)] = getPrimaryCat(r[2]);
+  });
+  scrollObserver = new IntersectionObserver((entries)=>{
+    if(activeFilter !== 'All') return;
+    let visible = [];
+    entries.forEach(e => { if(e.isIntersecting) visible.push(e.target); });
+    if(!visible.length) return;
+    const counts = {};
+    visible.forEach(el => { const cat = catMap[el.dataset.idx]; if(cat) counts[cat] = (counts[cat]||0)+1; });
+    const best = Object.keys(counts).reduce((a,b) => counts[a] > counts[b] ? a : b, Object.keys(counts)[0]);
+    if(!best) return;
+    document.querySelectorAll('.filter-pill').forEach(p => {
+      const cat = p.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+      p.classList.toggle('active', cat === best);
+    });
+  },{threshold:0.3});
+  cards.forEach(c => scrollObserver.observe(c));
+}
+
 // Keyboard
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
@@ -403,6 +433,7 @@ document.addEventListener('keydown',e=>{
 // Init
 renderFilters();
 renderGrid();
+setupScrollTracking();
 // Map is rendered only when user navigates to Map tab
 // Hide skeleton immediately
 document.getElementById('skeletonScreen').classList.add('hide');

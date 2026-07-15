@@ -43,7 +43,7 @@ header{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px 
 .header-actions{display:flex;align-items:center;gap:4px;margin-left:auto}
 .icon-btn{width:36px;height:36px;border:none;border-radius:10px;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .icon-btn:hover{background:var(--accent-bg);color:var(--accent)}
-.filters-bar{position:relative;z-index:10;padding:8px 0;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters-bar{position:sticky;top:64px;z-index:9;padding:8px 0;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:var(--bg2)}
 .filters-bar::-webkit-scrollbar{display:none}
 .filter-pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:10px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--heading-font);text-transform:uppercase;letter-spacing:.04em}
 .filter-pill:hover{border-color:var(--accent);color:var(--accent)}
