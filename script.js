@@ -387,32 +387,41 @@ function drawMapChart(){
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
 
-let scrollObserver = null;
+let scrollTrackTimer = null;
+let scrollActiveCat = '';
 function setupScrollTracking(){
-  if(scrollObserver) scrollObserver.disconnect();
-  const cards = document.querySelectorAll('#gridView .card');
-  if(!cards.length) return;
-  const catMap = {};
-  cards.forEach(c => {
-    const idx = parseInt(c.getAttribute('onclick').match(/\d+/)[0]);
-    const r = records[idx];
-    catMap[c.dataset.idx || (c.dataset.idx = idx)] = getPrimaryCat(r[2]);
-  });
-  scrollObserver = new IntersectionObserver((entries)=>{
+  const container = document.getElementById('gridContainer');
+  if(!container) return;
+  const onScroll = () => {
     if(activeFilter !== 'All') return;
-    let visible = [];
-    entries.forEach(e => { if(e.isIntersecting) visible.push(e.target); });
-    if(!visible.length) return;
-    const counts = {};
-    visible.forEach(el => { const cat = catMap[el.dataset.idx]; if(cat) counts[cat] = (counts[cat]||0)+1; });
-    const best = Object.keys(counts).reduce((a,b) => counts[a] > counts[b] ? a : b, Object.keys(counts)[0]);
-    if(!best) return;
-    document.querySelectorAll('.filter-pill').forEach(p => {
-      const cat = p.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
-      p.classList.toggle('active', cat === best);
-    });
-  },{threshold:0.3});
-  cards.forEach(c => scrollObserver.observe(c));
+    if(scrollTrackTimer) clearTimeout(scrollTrackTimer);
+    scrollTrackTimer = setTimeout(() => {
+      const cards = container.querySelectorAll('.card');
+      if(!cards.length) return;
+      let best = '', bestDist = Infinity;
+      const cxm = window.innerWidth / 2, cym = window.innerHeight / 2;
+      cards.forEach(c => {
+        const r = c.getBoundingClientRect();
+        if(r.bottom < 0 || r.top > window.innerHeight) return;
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const dist = Math.abs(cx - cxm) + Math.abs(cy - cym);
+        if(dist < bestDist){
+          const idx = parseInt(c.getAttribute('onclick').match(/\d+/)[0]);
+          const cat = getPrimaryCat(records[idx]);
+          if(cat) { best = cat; bestDist = dist; }
+        }
+      });
+      if(!best || best === scrollActiveCat) return;
+      scrollActiveCat = best;
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        const cat = p.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+        p.classList.toggle('active', cat === best);
+      });
+    },100);
+  };
+  container.removeEventListener('scroll', onScroll);
+  window.removeEventListener('scroll', onScroll);
+  window.addEventListener('scroll', onScroll, {passive:true});
 }
 
 // Keyboard
