@@ -358,7 +358,7 @@ function drawMapChart(){
     datalessRegionColor:'#AED6F1',
     defaultColor:'#AED6F1',
     legend:'none',
-    tooltip:{textStyle:{fontFamily:'Montserrat',fontSize:13}}
+    tooltip:{textStyle:{fontFamily:'Inter',fontSize:13}}
   });
 }
 
@@ -383,17 +383,15 @@ document.addEventListener('keydown',e=>{
 renderFilters();
 renderGrid();
 // Map is rendered only when user navigates to Map tab
-// Hide skeleton on load
-setTimeout(()=>{
-  document.getElementById('skeletonScreen').classList.add('hide');
-},100);
+// Hide skeleton immediately
+document.getElementById('skeletonScreen').classList.add('hide');
 
 // Generate skeleton grid
 (function(){
   const grid = document.getElementById('skeletonGrid');
   let html = '';
   for(let i=0;i<15;i++){
-    html += `<div class="skeleton-card"><div class="s-img shimmer"></div><div class="s-body"><div class="s-line shimmer w60"></div><div class="s-line shimmer w80"></div><div class="s-line shimmer w40"></div><div class="s-line shimmer w30"></div></div></div>`;
+    html += `<div class="skeleton-card"><div class="s-img"></div><div class="s-body"><div class="s-line w60"></div><div class="s-line w80"></div><div class="s-line w40"></div><div class="s-line w30"></div></div></div>`;
   }
   grid.innerHTML = html;
 })();
