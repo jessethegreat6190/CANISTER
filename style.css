@@ -1,13 +1,13 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#FAF7F2;--bg2:#F0EBE3;--card:#FFFFFF;--card-hover:#FFFCF5;
-  --text:#1A1A1A;--text2:#57534E;--text3:#A8A29E;
-  --accent:#D97706;--accent2:#EA580C;--accent-bg:rgba(217,119,6,0.1);
-  --border:#D6D0C8;--shadow:0 2px 8px rgba(0,0,0,0.06);
+  --bg:#F9F7F1;--bg2:#F0EDE3;--card:#FDFBF7;--card-hover:#FAFAF5;
+  --text:#2C2C2C;--text2:#57534E;--text3:#888888;
+  --accent:#C0392B;--accent2:#E74C3C;--accent-bg:rgba(192,57,43,0.08);
+  --border:#D6D3CD;--shadow:0 1px 3px rgba(0,0,0,0.06);
   --radius:16px;--radius-sm:12px;--radius-pill:28px;
   --nav-h:64px;
-  --cat-chem:#D97706;--cat-conv:#7C3AED;--cat-kin:#0284C7;
-  --cat-less:#059669;--cat-rest:#DC2626;--cat-strike:#CA8A04;
+  --cat-chem:#C0392B;--cat-conv:#8E44AD;--cat-kin:#E67E22;
+  --cat-less:#2980B9;--cat-rest:#27AE60;--cat-strike:#F39C12;
   --heading-font:'Space Grotesk',sans-serif;
   --body-font:'Inter',sans-serif;
 }
@@ -15,7 +15,7 @@
   --bg:#1C1917;--bg2:#292524;--card:#3C3935;--card-hover:#44413D;
   --text:#F5F0EB;--text2:#A8A29E;--text3:#78716C;
   --border:rgba(255,255,255,0.06);--shadow:0 1px 3px rgba(0,0,0,0.3);
-  --accent-bg:rgba(217,119,6,0.15);
+  --accent-bg:rgba(192,57,43,0.2);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:auto}
 body{font-family:var(--body-font);background:var(--bg2);color:var(--text);transition:background .3s,color .3s;min-height:100vh;position:relative}
@@ -67,7 +67,7 @@ header{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px 
 .skeleton-screen.hide{display:none}
 .grid-view{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;transition:all .25s ease;box-shadow:var(--shadow);position:relative}
-.card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1);border-color:var(--accent)}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--accent)}
 .card-img{width:100%;aspect-ratio:4/3;background:var(--bg2);overflow:hidden;position:relative}
 .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .card:hover .card-img img{transform:scale(1.05)}
