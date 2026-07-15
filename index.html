@@ -34,7 +34,7 @@
   <div class="s-grid" id="skeletonGrid"></div>
 </div>
 <div class="view-container">
-  <div class="view-panel" id="gridView">
+  <div class="view-panel active" id="gridView">
     <div class="filters-bar" id="filtersBar"></div>
     <div class="kpi-bar">
       <div class="kpi-card"><span class="material-symbols-rounded">inventory_2</span><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div class="view-panel active" id="mapView">
+  <div class="view-panel" id="mapView">
     <div class="map-wrapper" style="position:relative;margin-top:24px">
       <div id="mapChartContainer"></div>
       <div class="map-legend">
@@ -95,8 +95,8 @@
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bottom-nav-item" onclick="mobileNav('grid',this)"><span class="material-symbols-rounded">grid_view</span>Grid</button>
-    <button class="bottom-nav-item active" onclick="mobileNav('map',this)"><span class="material-symbols-rounded">map</span>Map</button>
+    <button class="bottom-nav-item active" onclick="mobileNav('grid',this)"><span class="material-symbols-rounded">grid_view</span>Grid</button>
+    <button class="bottom-nav-item" onclick="mobileNav('map',this)"><span class="material-symbols-rounded">map</span>Map</button>
     <button class="bottom-nav-item" onclick="mobileNav('about',this)"><span class="material-symbols-rounded">info</span>About</button>
   </div>
 </nav>

@@ -383,7 +383,6 @@ document.addEventListener('keydown',e=>{
 renderFilters();
 renderGrid();
 renderMap();
-document.getElementById('searchBox').style.display = 'none';
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
