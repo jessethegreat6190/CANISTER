@@ -104,11 +104,11 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 .empty-state p{font-size:14px;max-width:400px}
 
 #mapChartContainer{width:100%;min-height:400px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-.map-legend{position:absolute;top:16px;left:16px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 18px;z-index:20;min-width:240px}
-.map-heading{font-family:var(--heading-font);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;color:var(--text)}
-.map-country{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:2px}
-.map-diamond{font-size:12px;color:var(--accent);margin-bottom:2px}
-.map-company{font-size:13px;color:var(--text);margin-bottom:12px}
+.map-legend{position:absolute;top:12px;left:12px;background:var(--glass);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px 14px;z-index:20;min-width:180px}
+.map-heading{font-family:var(--heading-font);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;color:var(--text)}
+.map-country{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:1px}
+.map-diamond{font-size:10px;color:var(--accent);margin-bottom:1px}
+.map-company{font-size:11px;color:var(--text);margin-bottom:8px}
 .map-company:last-child{margin-bottom:0}
 .map-note{position:absolute;bottom:12px;right:16px;font-size:11px;color:var(--text3);font-style:italic;z-index:20;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px 10px;border-radius:var(--radius-pill);pointer-events:none}
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
@@ -161,7 +161,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 <body>
 <header>
   <a href="#" class="logo" onclick="scrollToTop()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="logo-icon" aria-hidden="true"><path d="M15 12h-5"></path><path d="M15 8h-5"></path><path d="M19 17V5a2 2 0 0 0-2-2H4"></path><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"></path></svg><div class="logo-text"><span>Canister</span><span class="logo-sub">Archive</span></div></a>
-  <div class="search-box">
+  <div class="search-box" id="searchBox">
     <span class="material-symbols-rounded">search</span>
     <input type="text" id="searchInput" placeholder="Search canisters, locations, categories..." aria-label="Search records">
   </div>
@@ -171,8 +171,6 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
     </button>
   </div>
 </header>
-
-<div class="filters-bar" id="filtersBar"></div>
 
 <div class="skeleton-screen" id="skeletonScreen">
   <div class="s-kpi">
@@ -185,6 +183,7 @@ header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter
 </div>
 <div class="view-container">
   <div class="view-panel" id="gridView">
+    <div class="filters-bar" id="filtersBar"></div>
     <div class="kpi-bar">
       <div class="kpi-card"><span class="material-symbols-rounded">inventory_2</span><div class="kpi-info"><h3 id="kpiTotal">132</h3><p>Total Items</p></div></div>
       <div class="kpi-card"><span class="material-symbols-rounded">public</span><div class="kpi-info"><h3 id="kpiCountries">42</h3><p>Countries</p></div></div>
@@ -511,6 +510,9 @@ function showView(view){
   document.querySelectorAll('.view-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(view+'View').classList.add('active');
 
+  const isGrid = view === 'grid';
+  document.getElementById('searchBox').style.display = isGrid ? '' : 'none';
+
   if(view==='map') renderMap();
 }
 
@@ -609,6 +611,7 @@ document.addEventListener('keydown',e=>{
 renderFilters();
 renderGrid();
 renderMap();
+document.getElementById('searchBox').style.display = 'none';
 // Hide skeleton on load
 setTimeout(()=>{
   document.getElementById('skeletonScreen').classList.add('hide');
