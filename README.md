@@ -4,12 +4,12 @@ World's largest open database tracking tear gas canister use in protests worldwi
 
 ## Features
 
-- **Grid View** — Browse all 132+ records with images, locations, dates, and source links
-- **Map View** — Interactive world map highlighting origin countries with company details
-- **About** — Project background and partner organizations
-- **Filters** — Filter by category: Chemical, Conventional Weapons, Kinetic Impact, Less Lethal Launchers, Restraints, Striking Weapons
-- **Search** — Search by name, location, category, or date
-- **Dark Mode** — Toggle light/dark theme
+- **Grid View**  Browse all 132+ records with images, locations, dates, and source links
+- **Map View**  Interactive world map highlighting origin countries with company details
+- **About**  Project background and partner organizations
+- **Filters** Filter by category: Chemical, Conventional Weapons, Kinetic Impact, Less Lethal Launchers, Restraints, Striking Weapons
+- **Search** Search by name, location, category, or date
+- **Dark Mode**  Toggle light/dark theme
 
 ## Tech Stack
 
